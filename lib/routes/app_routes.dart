@@ -33,15 +33,16 @@ class AppRoutes {
 
   static const String attendancePageScreen = '/attendance_page_screen';
 
-  static String? _selectedBranch ;
-  static String? _selectedSection ;
+  static String? _selectedBranch;
+  static String? _selectedSection;
   static String? _selectedSubject;
   static DateTime? _selectedDate;
   static List<String> usnList = [];
 
   static const String manualUpdatePage = '/manual_update_page';
 
-  static const String attendanceGraphPageScreen = '/attendance_graph_page_screen';
+  static const String attendanceGraphPageScreen =
+      '/attendance_graph_page_screen';
 
   static const String profileSettingsPage = '/profile_settings_page';
 
@@ -51,7 +52,8 @@ class AppRoutes {
 
   static const String sendAttendancePageScreen = '/send_attendance_page_screen';
 
-  static const String attendanceUpdatePageScreen = '/attendance_update_page_screen';
+  static const String attendanceUpdatePageScreen =
+      '/attendance_update_page_screen';
 
   static const String appNavigationScreen = '/app_navigation_screen';
 

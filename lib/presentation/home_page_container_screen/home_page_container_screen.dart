@@ -1,3 +1,4 @@
+import 'package:facemarkapp/presentation/attendance_graph_page_screen/attendance_graph_page_screen.dart';
 import 'package:facemarkapp/presentation/attendance_page_screen/attendance_page_screen.dart';
 import 'package:facemarkapp/presentation/dashboard_page_screen/dashboard_page_screen.dart';
 import 'package:facemarkapp/presentation/image_preview_page/image_preview_page.dart';
@@ -32,7 +33,7 @@ class HomePageContainerScreen extends GetWidget<HomePageContainerController> {
       case BottomBarEnum.Volume:
         return AppRoutes.homePage;
       case BottomBarEnum.History:
-        return AppRoutes.imagePreviewPage;
+        return AppRoutes.attendanceGraphPageScreen;
       case BottomBarEnum.Grid:
         return AppRoutes.dashboardPageScreen;
       case BottomBarEnum.Computer:
@@ -46,17 +47,9 @@ class HomePageContainerScreen extends GetWidget<HomePageContainerController> {
     switch (currentRoute) {
       case AppRoutes.homePage:
         return Homepage();
-      case AppRoutes.imagePreviewPage:
-        var pickedFile;
-        String _selectedBranch = "";
-        String _selectedSection = "";
-        String _selectedSubject = "";
-        DateTime _selectedDate= DateTime.now();
-        return ImagePreviewPage(imagePath: pickedFile.path,branch: _selectedBranch,
-            section: _selectedSection,
-            subject: _selectedSubject,
-            date: _selectedDate);
-        case AppRoutes.dashboardPageScreen:
+      case AppRoutes.attendanceGraphPageScreen:
+        return AttendanceGraphPageScreen();
+      case AppRoutes.dashboardPageScreen:
         return DashboardPageScreen();
       case AppRoutes.profileSettingsPage:
         return ProfileSettingsPage();

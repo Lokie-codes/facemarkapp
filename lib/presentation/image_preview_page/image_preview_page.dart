@@ -12,20 +12,20 @@ import 'package:http/http.dart' as http;
 
 // ignore_for_file: must_be_immutable
 class ImagePreviewPage extends StatefulWidget {
-
-
   final String imagePath;
   final String branch;
   final String section;
   final String subject;
   final DateTime date;
 
-  const ImagePreviewPage({Key? key, required this.imagePath,
-  required this.branch,
-  required this.section,
-  required this.subject,
-  required this.date,
-   //required this.usns,
+  const ImagePreviewPage({
+    Key? key,
+    required this.imagePath,
+    required this.branch,
+    required this.section,
+    required this.subject,
+    required this.date,
+    //required this.usns,
   }) : super(key: key);
 
   @override
@@ -33,14 +33,13 @@ class ImagePreviewPage extends StatefulWidget {
 }
 
 class _ImagePreviewPageState extends State<ImagePreviewPage> {
-
   // late String _selectedBranch='';
   // late String _selectedSection='';
   // late String _selectedSubject='';
   // late DateTime _selectedDate=DateTime.now();
 
   // void _onSendImagePressed() async {
-  //   final apiUrl = Uri.parse('http://facemark.me/face/recognise/');
+  //   final apiUrl = Uri.parse('http://192.168.93.142:8000/face/recognise/');
   //   final imageFile = File(widget.imagePath);
   //   final request = http.MultipartRequest('POST', apiUrl)
   //     ..files.add(await http.MultipartFile.fromPath('image', imageFile.path));
@@ -120,7 +119,7 @@ class _ImagePreviewPageState extends State<ImagePreviewPage> {
   // }
 
   void _onSendImagePressed() async {
-    final apiUrl = Uri.parse('http://facemark.me/face/recognise/');
+    final apiUrl = Uri.parse('http://192.168.93.142:8000/face/recognise/');
     final imageFile = File(widget.imagePath);
     final request = http.MultipartRequest('POST', apiUrl)
       ..files.add(await http.MultipartFile.fromPath('image', imageFile.path));
@@ -155,7 +154,7 @@ class _ImagePreviewPageState extends State<ImagePreviewPage> {
             context: context,
             builder: (context) => AlertDialog(
               title: Text('Error'),
-              content: Text('Failed to recognize faces. Please try again.'),
+              content: Text('Couldn\'t find you in database. Sure you registered?'),
               actions: [
                 ElevatedButton(
                   onPressed: () => Navigator.pop(context),
@@ -198,8 +197,6 @@ class _ImagePreviewPageState extends State<ImagePreviewPage> {
     }
   }
 
-
-
   @override
   Widget build(BuildContext context) {
     final branch = widget.branch;
@@ -235,10 +232,13 @@ class _ImagePreviewPageState extends State<ImagePreviewPage> {
                                     margin: getMargin(left: 1),
                                     onTap: onTapBtnArrowleft,
                                     child: CustomImageView(
-                                      svgPath: ImageConstant.imgArrowleftBlack90001,
+                                      svgPath:
+                                          ImageConstant.imgArrowleftBlack90001,
                                     ),
                                   ),
-                                  SizedBox(width: 10), // Add a SizedBox widget with width of 10
+                                  SizedBox(
+                                      width:
+                                          10), // Add a SizedBox widget with width of 10
                                   RichText(
                                     text: TextSpan(
                                       children: [
@@ -249,7 +249,8 @@ class _ImagePreviewPageState extends State<ImagePreviewPage> {
                                             fontSize: getFontSize(30),
                                             fontFamily: 'Poppins',
                                             fontWeight: FontWeight.w700,
-                                          ),),
+                                          ),
+                                        ),
                                         TextSpan(
                                           text: 'lbl_image'.tr,
                                           style: TextStyle(
@@ -258,9 +259,13 @@ class _ImagePreviewPageState extends State<ImagePreviewPage> {
                                             fontFamily: 'Poppins',
                                             fontWeight: FontWeight.w700,
                                           ),
-                                        ),],),
+                                        ),
+                                      ],
+                                    ),
                                     textAlign: TextAlign.left,
-                                  ),],),
+                                  ),
+                                ],
+                              ),
                               SizedBox(height: 10),
                               Padding(
                                   padding: getPadding(left: 4, top: 8),
@@ -280,7 +285,9 @@ class _ImagePreviewPageState extends State<ImagePreviewPage> {
                                     height: 300,
                                     width: 300,
                                     fit: BoxFit.cover,
-                                  ),),),
+                                  ),
+                                ),
+                              ),
                               SizedBox(height: 5),
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
@@ -292,10 +299,14 @@ class _ImagePreviewPageState extends State<ImagePreviewPage> {
                                       'Retry',
                                       style: TextStyle(
                                         backgroundColor: Colors.black,
-                                      ),),
+                                      ),
+                                    ),
                                     style: ButtonStyle(
-                                      backgroundColor: MaterialStateProperty.all<Color>(Colors.black),
-                                    ),),
+                                      backgroundColor:
+                                          MaterialStateProperty.all<Color>(
+                                              Colors.black),
+                                    ),
+                                  ),
                                   SizedBox(width: 20),
                                   ElevatedButton(
                                     onPressed: _onSendImagePressed,
@@ -303,12 +314,23 @@ class _ImagePreviewPageState extends State<ImagePreviewPage> {
                                       'Send Image',
                                       style: TextStyle(
                                         backgroundColor: Colors.black,
-                                      ),),
+                                      ),
+                                    ),
                                     style: ButtonStyle(
-                                      backgroundColor: MaterialStateProperty.all<Color>(Colors.black),
-                                    ),),
-                                ],),
-                            ],),),]),),),))));
+                                      backgroundColor:
+                                          MaterialStateProperty.all<Color>(
+                                              Colors.black),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                        ),
+                      ]),
+                    ),
+                  ),
+                ))));
   }
 
   onTapBtnArrowleft() {

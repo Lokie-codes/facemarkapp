@@ -3,7 +3,6 @@ import 'package:facemarkapp/presentation/attendance_update_page_screen/models/at
 import 'package:facemarkapp/widgets/custom_bottom_bar.dart';
 
 class AttendanceUpdatePageController extends GetxController {
-
   Rx<AttendanceUpdatePageModel> attendanceUpdatePageModelObj =
       AttendanceUpdatePageModel().obs;
 

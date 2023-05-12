@@ -8,7 +8,8 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 class ManualUpdatePage extends StatefulWidget {
- ManualUpdateController controller = Get.put(ManualUpdateController(ManualUpdateModel().obs));
+  ManualUpdateController controller =
+      Get.put(ManualUpdateController(ManualUpdateModel().obs));
 
   @override
   _ManualUpdatePageState createState() => _ManualUpdatePageState();
@@ -17,22 +18,22 @@ class ManualUpdatePage extends StatefulWidget {
 class _ManualUpdatePageState extends State<ManualUpdatePage> {
   bool status = false; // Added boolean variable for status
   final TextEditingController studentController = TextEditingController();
-  late String _selectedBranch="";
-  late String _selectedSection="";
-  late String _selectedSubject="";
-  late DateTime _selectedDate=DateTime.now();
+  late String _selectedBranch = "";
+  late String _selectedSection = "";
+  late String _selectedSubject = "";
+  late DateTime _selectedDate = DateTime.now();
 
   List<String> branches = [];
   List<String> sections = [];
   List<String> subjects = [];
 
   Future<List<String>> fetchBranches() async {
-    final response = await http.get(Uri.parse('http://facemark.me/api/branch/'));
+    final response =
+        await http.get(Uri.parse('http://192.168.93.142:8000/api/branch/'));
     if (response.statusCode == 200) {
       final data = json.decode(response.body);
       List<String> branches = [];
-      for(var i=0; i<data.length; i++)
-      {
+      for (var i = 0; i < data.length; i++) {
         branches.add(data[i]["branchName"]);
       }
       return branches;
@@ -41,14 +42,13 @@ class _ManualUpdatePageState extends State<ManualUpdatePage> {
     }
   }
 
-
   Future<List<String>> fetchSubjects() async {
-    final response = await http.get(Uri.parse('http://facemark.me/api/subject/'));
+    final response =
+        await http.get(Uri.parse('http://192.168.93.142:8000/api/subject/'));
     if (response.statusCode == 200) {
       final data = json.decode(response.body);
       List<String> subjects = [];
-      for(var i=0; i<data.length; i++)
-      {
+      for (var i = 0; i < data.length; i++) {
         subjects.add(data[i]["subjectName"]);
       }
       return subjects;
@@ -58,12 +58,12 @@ class _ManualUpdatePageState extends State<ManualUpdatePage> {
   }
 
   Future<List<String>> fetchSections() async {
-    final response = await http.get(Uri.parse('http://facemark.me/api/section/'));
+    final response =
+        await http.get(Uri.parse('http://192.168.93.142:8000/api/section/'));
     if (response.statusCode == 200) {
       final data = json.decode(response.body);
       List<String> sections = [];
-      for(var i=0; i<data.length; i++)
-      {
+      for (var i = 0; i < data.length; i++) {
         sections.add(data[i]["sectionName"]);
       }
       return sections;
@@ -71,7 +71,6 @@ class _ManualUpdatePageState extends State<ManualUpdatePage> {
       throw Exception('Failed to fetch sections');
     }
   }
-
 
   void _onBranchSelected(String? branch) {
     setState(() {
@@ -110,7 +109,7 @@ class _ManualUpdatePageState extends State<ManualUpdatePage> {
         branches = data;
       });
       print("Point-2");
-      _selectedBranch=data[0];
+      _selectedBranch = data[0];
     }).catchError((error) {
       print('Error fetching branches: $error');
     });
@@ -119,7 +118,7 @@ class _ManualUpdatePageState extends State<ManualUpdatePage> {
       setState(() {
         sections = data;
       });
-      _selectedSection=data[0];
+      _selectedSection = data[0];
     }).catchError((error) {
       print('Error fetching sections: $error');
     });
@@ -128,22 +127,24 @@ class _ManualUpdatePageState extends State<ManualUpdatePage> {
       setState(() {
         subjects = data;
       });
-      _selectedSubject=data[0];
+      _selectedSubject = data[0];
     }).catchError((error) {
       print('Error fetching subjects: $error');
     });
   }
+
   Future<void> updateAttendance() async {
-    final id = '<id>'; // Replace <id> with the actual ID from the API URL
-    final url = 'http://facemark.me/api/attendance/$id';
+    final date = _selectedDate.toString().split(' ')[0];
+    final subject = _selectedSubject.replaceAll(' ', '%20');
+    final url = 'http://192.168.93.142:8000/api/attendance/$date/$subject';
 
     final data = {
       'status': status.toString(), // Convert boolean status to string
       'student': studentController.text.trim(),
-      'branch':_selectedBranch,
-      'section':_selectedSection,
-      'subject':_selectedSubject,
-      'date':_selectedDate,
+      'branch': _selectedBranch,
+      'section': _selectedSection,
+      'subject': _selectedSubject,
+      'date': _selectedDate,
     };
 
     final response = await http.put(
@@ -193,8 +194,7 @@ class _ManualUpdatePageState extends State<ManualUpdatePage> {
                           Align(
                             alignment: Alignment.topCenter,
                             child: Padding(
-                              padding: getPadding(
-                                  left: 19, top: 50, right: 18),
+                              padding: getPadding(left: 19, top: 50, right: 18),
                               child: Column(
                                 mainAxisSize: MainAxisSize.min,
                                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -215,141 +215,171 @@ class _ManualUpdatePageState extends State<ManualUpdatePage> {
                                       child: RichText(
                                           text: TextSpan(children: [
                                             TextSpan(
-                                                text:
-                                                "lbl_manual".tr,
+                                                text: "lbl_manual".tr,
                                                 style: TextStyle(
-                                                    color: ColorConstant.black90001,
-                                                    fontSize: getFontSize(30),
-                                                    fontFamily: 'Poppins',
-                                                    fontWeight: FontWeight.w700,
-                                                    letterSpacing: getHorizontalSize(0.28),)),
+                                                  color:
+                                                      ColorConstant.black90001,
+                                                  fontSize: getFontSize(30),
+                                                  fontFamily: 'Poppins',
+                                                  fontWeight: FontWeight.w700,
+                                                  letterSpacing:
+                                                      getHorizontalSize(0.28),
+                                                )),
                                             TextSpan(
                                                 text: " ",
                                                 style: TextStyle(
-                                                    color: ColorConstant.indigo900,
+                                                    color:
+                                                        ColorConstant.indigo900,
                                                     fontSize: getFontSize(30),
                                                     fontFamily: 'Poppins',
                                                     fontWeight: FontWeight.w700,
-                                                    letterSpacing: getHorizontalSize(0.28))),
+                                                    letterSpacing:
+                                                        getHorizontalSize(
+                                                            0.28))),
                                             TextSpan(
                                                 text: "lbl_update".tr,
                                                 style: TextStyle(
-                                                    color: ColorConstant.whiteA700,
+                                                    color:
+                                                        ColorConstant.whiteA700,
                                                     fontSize: getFontSize(30),
                                                     fontFamily: 'Poppins',
                                                     fontWeight: FontWeight.w700,
-                                                    letterSpacing: getHorizontalSize(0.28)))
+                                                    letterSpacing:
+                                                        getHorizontalSize(
+                                                            0.28)))
                                           ]),
                                           textAlign: TextAlign.center)),
-                          // Your UI elements here
+                                  // Your UI elements here
 
-                          Padding(
-                            padding: const EdgeInsets.all(16.0),
-                            child: Column(
-                              children: [
-                                SizedBox(height: 16.0),
-                                Row(
-                                  children: [
-                                    Checkbox(
-                                      value: status,
-                                      onChanged: (value) {
-                                        setState(() {
-                                          status = value!;
-                                        });
-                                      },
-                                    ),
-                                    Text('Status'),
-                                  ],
-                                ),
-                                SizedBox(height: 16.0),
-                                TextField(
-                                  controller: studentController,
-                                  decoration: InputDecoration(
-                                    labelText: 'Student',
-                                  ),
-                                ),
-                                SizedBox(height: 16.0),
-                                DropdownButton<String>(
-                                  value: _selectedBranch,
-                                  hint: Text('Select Branch'),
-                                  onChanged: _onBranchSelected,
-                                  items: branches.map((branch) => DropdownMenuItem(
-                                    value: branch,
-                                    child: Text(branch),
-                                  ))
-                                      .toList(),
-                                ),
-                                SizedBox(height: 16.0),
-                                DropdownButton<String>(
-                                  value: _selectedSection,
-                                  hint: Text('Select Section'),
-                                  onChanged: _onSectionSelected,
-                                  items: sections.map(
-                                          (section) => DropdownMenuItem(
-                                        value: section,
-                                        child: Text(section),
-                                      ))
-                                      .toList(),
-                                ),
-                                SizedBox(height: 16.0),
-                                DropdownButton<String>(
-                                  value: _selectedSubject,
-                                  hint: Text('Select Subject'),
-                                  onChanged: _onSubjectSelected,
-                                  items: subjects.map((subject) => DropdownMenuItem(
-                                    value: subject,
-                                    child: Text(subject),
-                                  ))
-                                      .toList(),
-                                ),
-
-                                SizedBox(height: 16.0),
-                                GestureDetector(
-                                  onTap: () async {
-                                    DateTime? date = await showDatePicker(
-                                        context: context,
-                                        initialDate: DateTime.now(),
-                                        firstDate: DateTime(2020),
-                                        lastDate: DateTime(2030));
-                                    if (date != null) {
-                                      _onDateSelected(date);
-                                    }
-                                  },
-                                  child: Container(
-                                    padding: EdgeInsets.symmetric(vertical: 8.0),
-                                    decoration: BoxDecoration(
-                                      border: Border(
-                                        bottom: BorderSide(width: 1.0, color: Colors.grey),
-                                      ),
-                                    ),
-                                    child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  Padding(
+                                    padding: const EdgeInsets.all(16.0),
+                                    child: Column(
                                       children: [
-                                        Text(
-                                          _selectedDate.toString().substring(0, 10),
-                                          style: TextStyle(fontSize: 16.0),
+                                        SizedBox(height: 16.0),
+                                        Row(
+                                          children: [
+                                            Checkbox(
+                                              value: status,
+                                              onChanged: (value) {
+                                                setState(() {
+                                                  status = value!;
+                                                });
+                                              },
+                                            ),
+                                            Text('Status'),
+                                          ],
                                         ),
-                                        Icon(Icons.calendar_today),
+                                        SizedBox(height: 16.0),
+                                        TextField(
+                                          controller: studentController,
+                                          decoration: InputDecoration(
+                                            labelText: 'Student',
+                                          ),
+                                        ),
+                                        SizedBox(height: 16.0),
+                                        DropdownButton<String>(
+                                          value: _selectedBranch,
+                                          hint: Text('Select Branch'),
+                                          onChanged: _onBranchSelected,
+                                          items: branches
+                                              .map((branch) => DropdownMenuItem(
+                                                    value: branch,
+                                                    child: Text(branch),
+                                                  ))
+                                              .toList(),
+                                        ),
+                                        SizedBox(height: 16.0),
+                                        DropdownButton<String>(
+                                          value: _selectedSection,
+                                          hint: Text('Select Section'),
+                                          onChanged: _onSectionSelected,
+                                          items: sections
+                                              .map(
+                                                  (section) => DropdownMenuItem(
+                                                        value: section,
+                                                        child: Text(section),
+                                                      ))
+                                              .toList(),
+                                        ),
+                                        SizedBox(height: 16.0),
+                                        DropdownButton<String>(
+                                          value: _selectedSubject,
+                                          hint: Text('Select Subject'),
+                                          onChanged: _onSubjectSelected,
+                                          items: subjects
+                                              .map(
+                                                  (subject) => DropdownMenuItem(
+                                                        value: subject,
+                                                        child: Text(subject),
+                                                      ))
+                                              .toList(),
+                                        ),
+                                        SizedBox(height: 16.0),
+                                        GestureDetector(
+                                          onTap: () async {
+                                            DateTime? date =
+                                                await showDatePicker(
+                                                    context: context,
+                                                    initialDate: DateTime.now(),
+                                                    firstDate: DateTime(2020),
+                                                    lastDate: DateTime(2030));
+                                            if (date != null) {
+                                              _onDateSelected(date);
+                                            }
+                                          },
+                                          child: Container(
+                                            padding: EdgeInsets.symmetric(
+                                                vertical: 8.0),
+                                            decoration: BoxDecoration(
+                                              border: Border(
+                                                bottom: BorderSide(
+                                                    width: 1.0,
+                                                    color: Colors.grey),
+                                              ),
+                                            ),
+                                            child: Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              children: [
+                                                Text(
+                                                  _selectedDate
+                                                      .toString()
+                                                      .substring(0, 10),
+                                                  style:
+                                                      TextStyle(fontSize: 16.0),
+                                                ),
+                                                Icon(Icons.calendar_today),
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                        SizedBox(height: 10.0),
+                                        ElevatedButton(
+                                          onPressed: updateAttendance,
+                                          child: Text('Update Attendance'),
+                                        ),
                                       ],
                                     ),
                                   ),
-                                ),
-                                SizedBox(height: 10.0),
-                                ElevatedButton(
-                                  onPressed: updateAttendance,
-                                  child: Text('Update Attendance'),
-                                ),
-                              ],
+                                ],
+                              ),
                             ),
                           ),
                         ],
-                      ),),),],),),),],),),
-    ),),),);
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
   }
 
   onTapBtnArrowleft() {
     Get.back();
   }
-
 }
-
