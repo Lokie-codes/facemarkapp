@@ -28,8 +28,8 @@ class _SendAttendancePageScreenState extends State<SendAttendancePageScreen> {
   late Future<List<dynamic>> futureAttendance;
 
   Future<List<dynamic>> fetchAttendance() async {
-    final response = await http
-        .get(Uri.parse('http://192.168.93.142:8000/send_mail_to_parent/'));
+    final response =
+        await http.get(Uri.parse('http://192.168.93.142:8000/api/attendance/'));
     if (response.statusCode == 200) {
       // If the call to the server was successful, parse the JSON
       List<dynamic> data = json.decode(response.body);
@@ -41,6 +41,7 @@ class _SendAttendancePageScreenState extends State<SendAttendancePageScreen> {
   }
 
   Future<void> sendAttendance() async {
+    print("Hitting attendance point");
     final response = await http.post(
       Uri.parse('http://192.168.93.142:8000/send_mail_to_parent/'),
       headers: <String, String>{
@@ -51,7 +52,12 @@ class _SendAttendancePageScreenState extends State<SendAttendancePageScreen> {
       }),
     );
     if (response.statusCode == 200) {
-      // If the call to the server was successful, do something
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Attendance sent successfully'),
+          backgroundColor: Colors.green,
+        ),
+      );
     } else {
       // If that call was not successful, throw an error.
       throw Exception('Failed to send attendance');
@@ -125,6 +131,7 @@ class _SendAttendancePageScreenState extends State<SendAttendancePageScreen> {
                                             ),
                                             TextSpan(
                                               text: "lbl_mark".tr,
+                                              text: "This widget",
                                               style: TextStyle(
                                                 color: ColorConstant.whiteA700,
                                                 fontSize: getFontSize(32),
