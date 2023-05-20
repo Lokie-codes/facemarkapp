@@ -43,7 +43,7 @@ class _SendAttendancePageScreenState extends State<SendAttendancePageScreen> {
   Future<void> sendAttendance() async {
     print("Hitting attendance point");
     final response = await http.post(
-      Uri.parse('http://192.168.93.142:8000/send_mail_to_parent/'),
+      Uri.parse('http://192.168.93.142:8000/api/send_mail/'),
       headers: <String, String>{
         'Content-Type': 'application/json; charset=UTF-8',
       },
@@ -131,7 +131,7 @@ class _SendAttendancePageScreenState extends State<SendAttendancePageScreen> {
                                             ),
                                             TextSpan(
                                               text: "lbl_mark".tr,
-                                              text: "This widget",
+                                              // text: "This widget",
                                               style: TextStyle(
                                                 color: ColorConstant.whiteA700,
                                                 fontSize: getFontSize(32),
