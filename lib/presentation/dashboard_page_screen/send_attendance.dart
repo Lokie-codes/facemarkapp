@@ -10,7 +10,6 @@ class SendAttendance extends StatefulWidget {
 }
 
 class _SendAttendanceState extends State<SendAttendance> {
-
   Future<String> sendAttendance() async {
     final response = await http.post(
       Uri.parse('http://192.168.93.142:8000/api/send_mail/'),
@@ -40,7 +39,7 @@ class _SendAttendanceState extends State<SendAttendance> {
                   style: TextStyle(fontSize: 16)),
               SizedBox(height: 10),
               ElevatedButton(
-                onPressed: () {           
+                onPressed: () {
                   Future response = sendAttendance();
                   // Navigator.pop(context);
                   response.then((value) {

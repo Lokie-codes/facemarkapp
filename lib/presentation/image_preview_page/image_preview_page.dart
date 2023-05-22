@@ -154,7 +154,8 @@ class _ImagePreviewPageState extends State<ImagePreviewPage> {
             context: context,
             builder: (context) => AlertDialog(
               title: Text('Error'),
-              content: Text('Couldn\'t find you in database. Sure you registered?'),
+              content:
+                  Text('Couldn\'t find you in database. Sure you registered?'),
               actions: [
                 ElevatedButton(
                   onPressed: () => Navigator.pop(context),
